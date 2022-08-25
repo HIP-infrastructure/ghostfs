@@ -1,0 +1,23 @@
+{
+    http_port 8080
+    https_port 4443
+}
+
+{$AUTH_BACKEND_DOMAIN}
+
+encode gzip zstd
+
+#tls /etc/caddy/cert.pem /etc/caddy/key.pem 
+
+redir /fs /fs/
+route /fs/* {
+	uri strip_prefix /fs
+	reverse_proxy localhost:3446 {
+		health_uri /ok
+		health_interval 10s
+
+		header_up Host {host}
+		header_up X-Real-IP {remote_host}
+		header_up X-Forwarded-For {remote_host}
+	}
+}
