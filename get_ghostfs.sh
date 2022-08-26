@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GHOSTFS_VERSION=0f58815
+GHOSTFS_VERSION=752b3eb
 
 rm GhostFS
 rm -rf tools
