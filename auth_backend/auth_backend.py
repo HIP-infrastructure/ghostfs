@@ -18,9 +18,6 @@ auth = HTTPBasicAuth()
 # get path for secret
 ENV_PATH = pathlib.Path(__file__).parent
 
-# get script
-SCRIPT_PATH = ENV_PATH.joinpath("../tools/token/index.js")
-
 load_dotenv(ENV_PATH.joinpath("auth_backend.env"))
 
 def get_domain():
@@ -83,7 +80,7 @@ def token():
   if hip_user is None:
     raise InvalidUsage('Invalid action', status_code=500)
 
-  cmd = ["node", SCRIPT_PATH, "--user", hip_user, "--retries", "1"]
+  cmd = ["../GhostFS", "--authorize", "--user", hip_user, "--retries", "1"]
   output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True)
 
   if output.stderr.rstrip() is not None and output.stderr.rstrip():
