@@ -73,22 +73,37 @@ def health_check():
 @app.route('/token', methods=['GET'])
 @auth.login_required
 def token():
-  # here we want to get the value of hip_user
-  # (i.e. ?hipuser=value)
+  # here we want to get the value of hip_user and group_folders
+  # (i.e. ?hipuser=value&gf=[{"id":3,"label":"CHUV","path":"__groupfolders/3"}])
   hip_user = request.args.get('hipuser')
+  group_folders = json.loads(request.args.get('gf'))
 
   if hip_user is None:
     raise InvalidUsage('Invalid action', status_code=500)
 
+  # authorize hipuser
   cmd = ["../GhostFS", "--authorize", "--user", hip_user, "--retries", "1"]
   output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True)
 
+  # error
   if output.stderr.rstrip() is not None and output.stderr.rstrip():
     response = { "error": output.stderr.rstrip() }
     return jsonify(response)
 
+  # we got a token
   if output.stdout.rstrip() is not None and output.stdout.rstrip():
     response = { "token": output.stdout.rstrip() }
+
+    # mount group folders if any
+    for group_folder in group_folders:
+      cmd = ["../GhostFS", "--mount", "--user", hip_user, "--source", group_folder['path'], "--destination", group_folder['label']]
+      output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True) 
+
+      # error
+      if output.stderr.rstrip() is not None and output.stderr.rstrip():
+        response = { "error": output.stderr.rstrip() }
+        return jsonify(response)
+
     return jsonify(response)
 
   raise InvalidUsage('Unknown error', status_code=500)
