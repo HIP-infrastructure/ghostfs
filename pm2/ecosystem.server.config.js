@@ -19,6 +19,7 @@ module.exports = {
     {
       script: "su",
       cwd: relative('..'),
+      name: 'ghostfs',
       watch: false,
       args: `-s /bin/sh www-data -c "./GhostFS --server --root ${data} --bind ${host} --suffix ${suffix}"`,
     },
