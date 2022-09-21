@@ -45,7 +45,7 @@ fi
 if [ -f ./auth_backend/auth_backend.env ]; then
     echo "./auth_backend/auth_backend.secret exists, not creating."
 else
-    cp auth_backend.env.template auth_backend.env
+    cp ./auth_backend/auth_backend.env.template ./auth_backend/auth_backend.env
 fi
 
 . "./get_ghostfs.sh"
