@@ -4,3 +4,4 @@ __pycache__
 auth_backend/auth_backend.secret
 auth_backend/auth_backend.env
 pm2/node_modules
+*.pem
