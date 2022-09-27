@@ -94,11 +94,32 @@ def token():
   if output.stdout.rstrip() is not None and output.stdout.rstrip():
     response = { "token": output.stdout.rstrip() }
 
+    # get list of mounted group folders
+    cmd = ["../GhostFS", "--mounts", "--user", hip_user]
+    output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True)
+
+    # error
+    if output.stderr.rstrip() is not None and output.stderr.rstrip():
+      response = { "error": output.stderr.rstrip() }
+      return jsonify(response)
+
+    # umount group folders that shouldn't be mounted
+    destinations = [group_folder['label'] for group_folder in group_folders]
+    if output.stdout.rstrip() is not None and output.stdout.rstrip():
+      for group_folder in output.stdout.rstrip().split('\n'):
+        if group_folder not in destinations:
+          cmd = ["../GhostFS", "--unmount", "--user", hip_user, "--destination", group_folder]
+          output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True)
+
+          # error
+          if output.stderr.rstrip() is not None and output.stderr.rstrip():
+            response = { "error": output.stderr.rstrip() }
+            return jsonify(response)
+
     # mount group folders if any
     for group_folder in group_folders:
       cmd = ["../GhostFS", "--mount", "--user", hip_user, "--source", group_folder['path'], "--destination", group_folder['label']]
       output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True) 
-
       # error
       if output.stderr.rstrip() is not None and output.stderr.rstrip():
         response = { "error": output.stderr.rstrip() }
