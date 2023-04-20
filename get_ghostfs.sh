@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GHOSTFS_VERSION=8a3c637-dev
+GHOSTFS_VERSION=898110c-dev
 
 rm GhostFS
 wget https://github.com/pouya-eghbali/ghostfs-builds/releases/download/linux-$GHOSTFS_VERSION/GhostFS
