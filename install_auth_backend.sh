@@ -8,6 +8,14 @@ then
 fi
 sudo pip3 install -r auth_backend/requirements.txt
 
+if ! command -v npm &> /dev/null
+then
+    echo "npm could not be found, installing..."
+    curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+sudo apt-get install -y nodejs
+    echo "npm installed."
+fi
+
 if ! command -v pm2 &> /dev/null
 then
     echo "pm2 could not be found, installing..."
@@ -43,7 +51,7 @@ else
 fi
 
 if [ -f ./auth_backend/auth_backend.env ]; then
-    echo "./auth_backend/auth_backend.secret exists, not creating."
+    echo "./auth_backend/auth_backend.env exists, not creating."
 else
     cp ./auth_backend/auth_backend.env.template ./auth_backend/auth_backend.env
 fi
