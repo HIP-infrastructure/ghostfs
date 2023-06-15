@@ -1,5 +1,13 @@
 #!/bin/bash
 
+dpkg -l | grep libfuse2 | grep -q ii
+if [ $? -eq 1 ];
+then
+    echo "libfuse2 could not be found, installing..."
+    sudo apt-get update && sudo apt-get install -y libfuse2
+    echo "libfuse2 installed."
+fi
+
 if ! command -v pip3 &> /dev/null
 then
     echo "pip3 could not be found, installing..."
@@ -34,6 +42,13 @@ then
     sudo systemctl stop caddy
     sudo systemctl disable caddy
     echo "caddy installed."
+fi
+
+if [ ! -d /mnt/nextcloud-dp/nextcloud/data ]; then
+    echo -n "Creating nextcloud data dir..."
+    sudo mkdir -p /mnt/nextcloud-dp/nextcloud/data
+    sudo chown www-data:www-data /mnt/nextcloud-dp/nextcloud/data
+    echo "done."
 fi
 
 if [ -f ./auth_backend/auth_backend.secret ]; then
