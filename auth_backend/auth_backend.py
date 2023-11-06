@@ -131,4 +131,7 @@ def token():
 
 
 if __name__ == '__main__':
-  app.run(port=3446)
+  p = argparse.ArgumentParser(description="Application settings")
+  p.add_argument('--port', type=int, help='Port the app will listen to', default=3446)
+  args = p.parse_args()
+  app.run(port=args.port)
