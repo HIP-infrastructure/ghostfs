@@ -23,6 +23,12 @@ load_dotenv(ENV_PATH.joinpath("auth_backend.env"))
 def get_domain():
   return str(os.getenv('AUTH_BACKEND_DOMAIN'))
 
+def add_auth_port(cmd):
+  if os.getenv('GHOSTFS_AUTH_PORT') is not None:
+    cmd.extend(["--auth-port", os.getenv('GHOSTFS_AUTH_PORT')])
+  
+  return cmd
+
 def get_credentials():
   with open(ENV_PATH.joinpath("auth_backend.secret"), mode='r') as secret:
     username, password = secret.read().split('@')
@@ -83,6 +89,7 @@ def token():
 
   # authorize hipuser
   cmd = ["../GhostFS", "--authorize", "--user", hip_user, "--retries", "1"]
+  cmd = add_auth_port(cmd)
   output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True)
 
   # error
@@ -128,7 +135,6 @@ def token():
     return jsonify(response)
 
   raise InvalidUsage('Unknown error', status_code=500)
-
 
 if __name__ == '__main__':
   p = argparse.ArgumentParser(description="Application settings")
