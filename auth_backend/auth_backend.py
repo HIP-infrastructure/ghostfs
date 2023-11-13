@@ -103,6 +103,7 @@ def token():
 
     # get list of mounted group folders
     cmd = ["../GhostFS", "--mounts", "--user", hip_user]
+    cmd = add_auth_port(cmd)
     output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True)
 
     # error
@@ -116,6 +117,7 @@ def token():
       for group_folder in output.stdout.rstrip().split('\n'):
         if group_folder not in destinations:
           cmd = ["../GhostFS", "--unmount", "--user", hip_user, "--destination", group_folder]
+          cmd = add_auth_port(cmd)
           output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True)
 
           # error
@@ -126,6 +128,7 @@ def token():
     # mount group folders if any
     for group_folder in group_folders:
       cmd = ["../GhostFS", "--mount", "--user", hip_user, "--source", group_folder['path'], "--destination", group_folder['label']]
+      cmd = add_auth_port(cmd)
       output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True) 
       # error
       if output.stderr.rstrip() is not None and output.stderr.rstrip():
