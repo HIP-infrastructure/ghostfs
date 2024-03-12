@@ -17,6 +17,7 @@ This repository allows deploying a GhostFS Server and Auth Server, and a GhostFS
     ```bash
     ./install_ghostfs.sh
     ```
+    When requested, enter a username and password for the GhostFS Auth Backend `htpsswd`.
 6. Verify that everything is running correctly using:
     ```bash
     sudo pm2 status
