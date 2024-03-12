@@ -12,6 +12,11 @@ This repository allows deploying a GhostFS Server and Auth Server, and a GhostFS
     ```bash
     ./gen_cert.sh <domain_name>
     ```
+4. Create the folder from which the data will be served and fix its permission rights:
+    ```bash
+    sudo mkdir -p /mnt/nextcloud-dp/nextcloud/data
+    sudo chmod -R www-data:www-data /mnt/nextcloud-dp/nextcloud/data
+    ```
 4. If needed, edit the `.env` to update the version of GhostFS Server and Auth Server.
 5. To install a GhostFS server and a GhostFS Auth Backend running on PM2 with a Caddy reverse proxy, execute the following command:
     ```bash
