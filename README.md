@@ -7,7 +7,7 @@ This repository allows deploying a GhostFS Server and Auth Server, and a GhostFS
    ```bash
    cp auth_backend/auth_backend.env.template auth_backend/auth_backend.env
    ```
-   In the newly created file, update the domain name to where the GhostFS Auth Backend will run on.
+   In the newly created file, update the `domain_name` to where the GhostFS Auth Backend will run on.
 3. To generate a self-signed SSL certificate and key for the GhostFS Server running on the same `domain_name` as above, execute the following command:
     ```bash
     ./gen_cert.sh <domain_name>
