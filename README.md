@@ -12,7 +12,7 @@ This repository allows deploying a GhostFS Server and Auth Server, and a GhostFS
     ```bash
     ./gen_cert.sh <domain_name>
     ```
-4. If needed, edit the `.env` to update the version of GhostFS.
+4. If needed, edit the `.env` to update the version of GhostFS Server and Auth Server.
 5. To install a GhostFS server and a GhostFS Auth Backend running on PM2 with a Caddy reverse proxy, execute the following command:
     ```bash
     ./install_ghostfs.sh
@@ -31,6 +31,13 @@ The GhostFS Auth Backend API is available at `https://domain_name:CADDY_PORT/ok`
 The GhostFS Server is available at `domain_name:3444`
 
 The GhostFS Auth Server is available at `domain_name:3555`
+
+## Update
+
+To update GhostFS Server and Auth Server to another version, edit `.env` with the new version number, then execute:
+```bash
+./get_ghostfs.sh
+```
 
 ## Acknowledgements
 
