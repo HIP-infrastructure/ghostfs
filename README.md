@@ -26,7 +26,7 @@ This repository allows deploying a GhostFS Server and Auth Server, and a GhostFS
      sudo pm2 logs <id>
      ```
      
-The GhostFS Auth Backend API is available at `https://domain_name:CADDY_PORT/ok`
+The GhostFS Auth Backend API is available at `https://domain_name:CADDY_PORT/fs/ok`
 
 The GhostFS Server is available at `domain_name:3444`
 
