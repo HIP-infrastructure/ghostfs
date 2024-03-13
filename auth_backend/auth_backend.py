@@ -23,6 +23,12 @@ load_dotenv(ENV_PATH.joinpath("auth_backend.env"))
 def get_domain():
   return str(os.getenv('AUTH_BACKEND_DOMAIN'))
 
+def add_auth_port(cmd):
+  if os.getenv('GHOSTFS_AUTH_PORT') is not None:
+    cmd.extend(["--auth-port", os.getenv('GHOSTFS_AUTH_PORT')])
+  
+  return cmd
+
 def get_credentials():
   with open(ENV_PATH.joinpath("auth_backend.secret"), mode='r') as secret:
     username, password = secret.read().split('@')
@@ -83,6 +89,7 @@ def token():
 
   # authorize hipuser
   cmd = ["../GhostFS", "--authorize", "--user", hip_user, "--retries", "1"]
+  cmd = add_auth_port(cmd)
   output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True)
 
   # error
@@ -96,6 +103,7 @@ def token():
 
     # get list of mounted group folders
     cmd = ["../GhostFS", "--mounts", "--user", hip_user]
+    cmd = add_auth_port(cmd)
     output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True)
 
     # error
@@ -109,6 +117,7 @@ def token():
       for group_folder in output.stdout.rstrip().split('\n'):
         if group_folder not in destinations:
           cmd = ["../GhostFS", "--unmount", "--user", hip_user, "--destination", group_folder]
+          cmd = add_auth_port(cmd)
           output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True)
 
           # error
@@ -119,6 +128,7 @@ def token():
     # mount group folders if any
     for group_folder in group_folders:
       cmd = ["../GhostFS", "--mount", "--user", hip_user, "--source", group_folder['path'], "--destination", group_folder['label']]
+      cmd = add_auth_port(cmd)
       output = subprocess.run(cmd, cwd=ENV_PATH, text=True, capture_output=True) 
       # error
       if output.stderr.rstrip() is not None and output.stderr.rstrip():
@@ -129,6 +139,8 @@ def token():
 
   raise InvalidUsage('Unknown error', status_code=500)
 
-
 if __name__ == '__main__':
-  app.run(port=3446)
+  p = argparse.ArgumentParser(description="Application settings")
+  p.add_argument('--port', type=int, help='Port the app will listen to', default=3446)
+  args = p.parse_args()
+  app.run(port=args.port)
