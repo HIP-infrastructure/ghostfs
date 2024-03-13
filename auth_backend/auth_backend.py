@@ -68,7 +68,7 @@ def index():
 
 @app.route('/ok')
 def health_check():
-  return "GhostFS Authentication Backend currently running on %s" % get_domain()
+  return "GhostFS Authentication Backend currently running on %s/fs" % get_domain()
 
 @app.route('/token', methods=['GET'])
 @auth.login_required
