@@ -1,7 +1,7 @@
-#{
-#	http_port 8080
-#	https_port 4443
-#}
+{
+	http_port 8080
+	https_port 4443
+}
 
 {$AUTH_BACKEND_DOMAIN}
 
