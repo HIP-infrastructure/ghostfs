@@ -44,6 +44,6 @@ To update GhostFS Server and Auth Server to another version, edit `.env` with th
 
 ## Acknowledgements
 
-The GhostFS Server, Client and Auth Server are developed by [Pouya Eghbali](https://github.com/pouya-eghbali) and [Nathalie Casati](https://github.com/idmple) as part of [Ako Grid](https://akogrid.com).
+The GhostFS Server, Client and Auth Server are developed by [Pouya Eghbali](https://github.com/pouya-eghbali) and [Nathalie Casati](https://github.com/idmple) as part of [Timeleap](https://timeleap.swiss/ghostfs).
 
 This research was supported by the EBRAINS research infrastructure, funded from the European Union’s Horizon 2020 Framework Programme for Research and Innovation under the Specific Grant Agreement No. 945539 (Human Brain Project SGA3).
